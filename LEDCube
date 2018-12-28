@@ -1,0 +1,169 @@
+/* Bhajan Phul
+   Arduino LED Cube Project  
+   11-20-18 */
+   
+int ledPins[] = {A0, A1, A2, A3, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}; //array for the LED's
+int button = 13;
+int sequence = 1;
+int val = 0;
+
+void setup() {
+
+  for (int i = 0; i < 16; i++) {
+    pinMode(ledPins[i], OUTPUT);
+  }
+
+  pinMode(13, INPUT);
+
+  /*pinMode(ledPins[0],OUTPUT); //green/orange
+    pinMode(ledPins[1],OUTPUT); // red/flashing lights
+    pinMode(ledPins[2],OUTPUT); // red/green
+    pinMode(ledPins[3],OUTPUT); // orange/flash
+    pinMode(ledPins[4],OUTPUT); // green-level two
+    pinMode(ledPins[5],OUTPUT); // yellow -level two
+    pinMode(ledPins[6],OUTPUT); // red -level two
+    pinMode(ledPins[7],OUTPUT); // white -level two
+    pinMode(ledPins[8],OUTPUT); // green -level three
+    pinMode(ledPins[9],OUTPUT); // yellow -level three
+    pinMode(ledPins[10],OUTPUT); // orange -level three
+    pinMode(ledPins[11],OUTPUT); // red -level three
+    pinMode(ledPins[12],OUTPUT); // green -level four
+    pinMode(ledPins[13],OUTPUT); //white -level four
+    pinMode(ledPins[14],OUTPUT); //yellow -level four
+    pinMode(ledPins[15],OUTPUT); // red -level four */
+}
+
+void loop() {
+  //begin loop
+
+  //climbing up -lights start at bottom and make their way up
+  //Spiral -lights will spiral inwards
+  //square -outer lights of the square will be on
+
+  val = digitalRead(button); //read button's input
+  if ( val == LOW) { //when val is on low button needs to be pressed
+    if (sequence == 3) {
+      sequence = 1;
+    } else
+    {
+      sequence++;
+    }
+
+    switch (sequence)
+    {
+      case 1:
+        climbingUp();
+        break;
+      case 2:
+        spiral();
+        break;
+      case 3:
+        square();
+        break;
+
+    }
+
+  }
+}//end loop
+
+void climbingUp() { //each strip of light will go on after delay
+  for (int i = 0; i < 16; i++) {
+    digitalWrite(ledPins[i], HIGH);
+    delay(200); //delays each strip of light
+  }
+  for (int i = 0; i < 16; i++) { //turn lights off in the same order they came on
+    digitalWrite(ledPins[i], LOW);
+    delay(200);
+  }
+}
+
+void spiral() {
+  digitalWrite(ledPins[12], HIGH); //start with green and move down and around the cube
+  delay(200);
+  digitalWrite(ledPins[8], HIGH);
+  delay(200);
+  digitalWrite(ledPins[4], HIGH);
+  delay(200);
+  digitalWrite(ledPins[0], HIGH);
+  delay(200);
+  digitalWrite(ledPins[1], HIGH);
+  delay(200);
+  digitalWrite(ledPins[2], HIGH);
+  delay(200);
+  digitalWrite(ledPins[3], HIGH);
+  delay(200);
+  digitalWrite(ledPins[7], HIGH);
+  delay(200);
+  digitalWrite(ledPins[11], HIGH);
+  delay(200);
+  digitalWrite(ledPins[15], HIGH);
+  delay(200);
+  digitalWrite(ledPins[14], HIGH);
+  delay(200);
+  digitalWrite(ledPins[13], HIGH);
+  delay(200);
+  digitalWrite(ledPins[9], HIGH);
+  delay(200);
+  digitalWrite(ledPins[5], HIGH);
+  delay(200);
+  digitalWrite(ledPins[6], HIGH);
+  delay(200);
+  digitalWrite(ledPins[10], HIGH); //should make orange LED glow last
+  delay(200);
+  for (int i = 0; i < 16; i++) {
+    digitalWrite(ledPins[i], LOW);
+
+  }
+}
+
+void square() { //only hit the outside lights
+  digitalWrite(ledPins[12], HIGH);
+  delay(200);
+  digitalWrite(ledPins[13], HIGH);
+  delay(200);
+  digitalWrite(ledPins[14], HIGH);
+  delay(200);
+  digitalWrite(ledPins[15], HIGH);
+  delay(200);
+  digitalWrite(ledPins[11], HIGH);
+  delay(200);
+  digitalWrite(ledPins[7], HIGH);
+  delay(200);
+  digitalWrite(ledPins[3], HIGH);
+  delay(200);
+  digitalWrite(ledPins[2], HIGH);
+  delay(200);
+  digitalWrite(ledPins[1], HIGH);
+  delay(200);
+  digitalWrite(ledPins[0], HIGH);
+  delay(200);
+  digitalWrite(ledPins[4], HIGH);
+  delay(200);
+  digitalWrite(ledPins[8], HIGH);
+  delay(300);
+
+  digitalWrite(ledPins[8], LOW); //turn the lights back off going back around
+  delay(200);
+  digitalWrite(ledPins[4], LOW);
+  delay(200);
+  digitalWrite(ledPins[0], LOW);
+  delay(200);
+  digitalWrite(ledPins[1], LOW);
+  delay(200);
+  digitalWrite(ledPins[2], LOW);
+  delay(200);
+  digitalWrite(ledPins[3], LOW);
+  delay(200);
+  digitalWrite(ledPins[7], LOW);
+  delay(200);
+  digitalWrite(ledPins[11], LOW);
+  delay(200);
+  digitalWrite(ledPins[15], LOW);
+  delay(200);
+  digitalWrite(ledPins[14], LOW);
+  delay(200);
+  digitalWrite(ledPins[13], LOW);
+  delay(200);
+  digitalWrite(ledPins[12], LOW); //green on level four should be the last one to turn off
+  delay(200);
+}
